@@ -55,5 +55,5 @@ export const getUserIdByToken = async (req: any) => {
   if (!foundUser) throw new ErrorResponse('Unauthorized', 401);
   const user = await UserModel.findById(foundUser);
 
-  return user?.email;
+  return user?.userName;
 };

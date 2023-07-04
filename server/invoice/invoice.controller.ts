@@ -1,17 +1,14 @@
 import { RequestHandler } from 'express';
 import InvoiceModel from './invoice.model';
 import { ErrorResponse } from '../middlewares/errorHandler';
-import { authenticate } from '../middlewares/authenticate';
-import router from './invoice.routes';
 import { getUserIdByToken } from '../utils/helpers';
-import UserModel from '../user/user.model';
 
 const getAll: RequestHandler = async (req, res, next) => {
   try {
-    const userEmail = await getUserIdByToken(req);
+    const user = await getUserIdByToken(req);
 
     const invoice = await InvoiceModel.find(
-      { customerName: userEmail },
+      { userId: user },
       'id date numberField customerName productName productQuantity productPrice totalInvoiceAmount'
     );
 
@@ -35,11 +32,11 @@ const getById: RequestHandler = async (req, res, next) => {
 };
 
 const create: RequestHandler = async (req, res, next) => {
-  try {
-    const userEmail = await getUserIdByToken(req);
+  const user = await getUserIdByToken(req);
 
+  try {
     const newInvoice = new InvoiceModel({
-      customerName: userEmail,
+      userId: user,
       ...req.body,
     });
     const saveInvoice = await newInvoice.save();

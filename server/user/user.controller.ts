@@ -15,7 +15,10 @@ const getAll: RequestHandler = async (req, res, next) => {
 
 const getById: RequestHandler = async (req, res, next) => {
   try {
-    const founduser = await UserModel.findById(req.params.id, 'id email');
+    const founduser = await UserModel.findById(
+      req.params.id,
+      'id userName email'
+    );
 
     if (!founduser) {
       return next(new ErrorResponse('User not found', 404));
@@ -28,7 +31,7 @@ const getById: RequestHandler = async (req, res, next) => {
 
 const create: RequestHandler = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, userName } = req.body;
 
     const emailExist = await UserModel.findOne({ email });
 
@@ -40,6 +43,7 @@ const create: RequestHandler = async (req, res, next) => {
     const hashedPassword: string = await hashPassword(password);
 
     const newUser = await UserModel.create({
+      userName,
       email,
       password: hashedPassword,
     });

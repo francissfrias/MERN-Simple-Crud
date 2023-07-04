@@ -3,9 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { Invoice } from './invoice.schema';
 
 const invoiceSchema = new mongoose.Schema<Invoice>({
+  userId: { type: String, required: false },
   numberField: { type: String },
   date: { type: Date, default: Date.now() },
-  customerName: { type: String },
+  customerName: { type: String, required: true },
   productName: { type: String, required: true },
   productQuantity: { type: Number, required: true, min: 1 },
   productPrice: { type: Number, required: true, min: 0 },

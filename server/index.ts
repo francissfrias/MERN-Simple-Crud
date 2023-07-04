@@ -9,6 +9,7 @@ import connectDB from './db';
 import invoiceRoute from './invoice/invoice.routes';
 import userRouter from './user/user.routes';
 import loginRouter from './auth/login';
+import productsRouter from './products/products.routes';
 
 const PORT = parseInt(process.env.PORT!);
 
@@ -30,6 +31,7 @@ app.get('/health-check', (req, res) => {
 
 app.use('/invoice', invoiceRoute);
 app.use('/users', userRouter);
+app.use('/products', productsRouter);
 app.use('/login', loginRouter);
 
 app.listen(PORT, () => console.log(`Hi I'm running at PORT ${PORT}`));

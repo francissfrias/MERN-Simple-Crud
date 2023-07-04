@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { validate } from '../middlewares/validate';
 
 export const InvoiceSchemaZod = z.object({
+  userId: z.string().optional(),
+  customerName: z.string({ required_error: 'Customer name is required' }),
   numberField: z
     .string()
     .refine((val) => val.length > 0, {
@@ -10,7 +12,6 @@ export const InvoiceSchemaZod = z.object({
     .optional(),
   date: z.date().optional(),
   totalInvoiceAmount: z.number().positive().optional(),
-  customerName: z.string().optional(),
   productName: z
     .string({
       required_error: 'Product name is required',

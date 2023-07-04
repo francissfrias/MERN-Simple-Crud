@@ -2,6 +2,13 @@ import * as z from 'zod';
 import { validate } from '../middlewares/validate';
 
 export const userSchemaZod = z.object({
+  userName: z
+    .string({
+      required_error: 'Name is required',
+    })
+    .min(3, {
+      message: 'Name must be at least 3 characters long',
+    }),
   email: z
     .string({ required_error: 'Email is required' })
     .email({ message: 'Provide a valid email' }),
